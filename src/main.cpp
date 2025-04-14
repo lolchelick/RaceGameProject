@@ -19,7 +19,6 @@ using namespace sf;
 
 void bikerDeath(Biker& b, std::string pathToTexture);
 void bikerReborn(Biker& b, std::string pathToTexture);
-bool coursorIntersects(const Vector2i &mousePos, const Text& t);
 
 bool dead = false;
 bool intersects = false;
