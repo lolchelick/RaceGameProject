@@ -8,6 +8,7 @@
 
 #define PATH_TO_CONTENT_IMG "C:/RaceGameProject/cnt/img/"
 #define PATH_TO_CONTENT_AUDIO "C:/RaceGameProject/cnt/audio/"
+#define PATH_TO_CONTENT_FONT "C:/RaceGameProject/cnt/fonts/"
 #define BACKGROUND_SHEET_SIZE Vector2f(375, 1500)
 #define BACKGROUND_MOVE_SPEED 500.0f
 #define WIN_SIZE Vector2f(BACKGROUND_SHEET_SIZE.x, BACKGROUND_SHEET_SIZE.y / 3)
@@ -67,8 +68,21 @@ int main()
 	rectMainMenuBack.setTexture(TextureHolder::GetTexture(PATH_TO_CONTENT_IMG"MainMenuBackTexture.png"));
 	rectMainMenuBack.setPosition(NULL_POS);
 #pragma endregion MainManuContentCreation
-
 	
+#pragma region Text
+	Font mainMenuFont;
+	Font gameInterFaceFont;
+	mainMenuFont.loadFromFile(PATH_TO_CONTENT_FONT"main_menu_font.ttf");
+	gameInterFaceFont.loadFromFile(PATH_TO_CONTENT_FONT"game_interface_font.ttf");
+
+	Text playButton;
+	Text scoreText;
+	playButton.setFont(mainMenuFont);
+	playButton.setCharacterSize(60);
+	playButton.setFillColor(Color::Black);
+	playButton.setString(String("PLAY"));
+	playButton.setPosition(Vector2f(100.0f, 340.0f));
+#pragma endregion Text
 
 
 	Clock clock;
@@ -172,6 +186,7 @@ int main()
 		if (gameStateNow == MAIN_MENU)
 		{
 			win.draw(rectMainMenuBack); 
+			win.draw(playButton);
 			//win.draw(text of button play);
 		}
 
