@@ -90,6 +90,7 @@ int main()
 			}
 			if (ev.key.code == Keyboard::Escape)
 			{
+				std::cout << "Escape pressed" << std::endl;
 				win.close();
 			}
 
@@ -97,15 +98,7 @@ int main()
 
 		if (gameStateNow == MAIN_MENU)
 		{
-			Vector2i mousePos = Mouse::getPosition();
-			if (coursorIntersects(mousePos, playButton))
-			{
-				playButton.setFillColor(Color::Red);
-			}
-			else
-			{
-				playButton.setFillColor(Color::Black);
-			}
+
 		}
 
 		if (gameStateNow == PLAYING)
