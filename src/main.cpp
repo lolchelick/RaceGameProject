@@ -97,15 +97,7 @@ int main()
 
 		if (gameStateNow == MAIN_MENU)
 		{
-			Vector2i mousePos = Mouse::getPosition();
-			if (coursorIntersects(mousePos, playButton))
-			{
-				playButton.setFillColor(Color::Red);
-			}
-			else
-			{
-				playButton.setFillColor(Color::Black);
-			}
+
 		}
 
 		if (gameStateNow == PLAYING)
@@ -175,8 +167,6 @@ int main()
 
 		}
 
-		
-		
 
 		win.clear();
 		
