@@ -80,6 +80,8 @@ int main()
 	{
 		float deltaTime = clock.restart().asSeconds();
 
+
+#pragma region Polling Event
 		Event ev;
 		while (win.pollEvent(ev))
 		{
@@ -88,13 +90,20 @@ int main()
 				win.close();
 				std::cout << "Type : Event::Closed" << std::endl;
 			}
+<<<<<<< HEAD
 			if (ev.key.code == Keyboard::Escape)
 			{
 				std::cout << "Escape pressed" << std::endl;
 				win.close();
 			}
 
+=======
+>>>>>>> fixing-bugs
 		}
+		if(Keyboard::isKeyPressed(Keyboard::Escape))
+			win.close();
+#pragma region Polling Event
+
 
 		if (gameStateNow == MAIN_MENU)
 		{
@@ -168,8 +177,6 @@ int main()
 
 		}
 
-		
-		
 
 		win.clear();
 		
