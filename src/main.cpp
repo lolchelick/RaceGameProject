@@ -72,20 +72,7 @@ int main()
 	rectMainMenuBack.setPosition(NULL_POS);
 #pragma endregion MainManuContentCreation
 	
-#pragma region Text
-	Font mainMenuFont;
-	Font gameInterFaceFont;
-	mainMenuFont.loadFromFile(PATH_TO_CONTENT_FONT"main_menu_font.ttf");
-	gameInterFaceFont.loadFromFile(PATH_TO_CONTENT_FONT"game_interface_font.ttf");
 
-	Text playButton;
-	Text scoreText;
-	playButton.setFont(mainMenuFont);
-	playButton.setCharacterSize(60);
-	playButton.setFillColor(Color::Black);
-	playButton.setString(String("PLAY"));
-	playButton.setPosition(Vector2f(100.0f, 340.0f));
-#pragma endregion Text
 
 
 	Clock clock;
@@ -197,7 +184,6 @@ int main()
 		if (gameStateNow == MAIN_MENU)
 		{
 			win.draw(rectMainMenuBack); 
-			win.draw(playButton);
 			//win.draw(text of button play);
 		}
 
@@ -237,8 +223,3 @@ void bikerReborn(Biker &b, std::string pathToTexture)
 	dead = false;
 }
 
-bool coursorIntersects(const Vector2i &mousePos, const Text &t)
-{
-	return (mousePos.x >= t.getPosition().x && mousePos.x <= t.getPosition().x + t.getCharacterSize() * 4 && 
-		mousePos.y >= t.getPosition().y && mousePos.y <= t.getPosition().y + t.getCharacterSize());
-}
