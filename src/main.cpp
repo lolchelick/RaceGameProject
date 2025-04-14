@@ -108,7 +108,7 @@ int main()
 
 		if (gameStateNow == MAIN_MENU)
 		{
-
+			
 		}
 
 		if (gameStateNow == PLAYING)
