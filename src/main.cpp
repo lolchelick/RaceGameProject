@@ -23,7 +23,7 @@ bool dead = false;
 bool intersects = false;
 
 enum gameState { MAIN_MENU, PLAYING, GAME_OVER };
-gameState gameStateNow = gameState::PLAYING;
+gameState gameStateNow = MAIN_MENU;
 
 int score = 0;
 int lives = 5;
@@ -44,7 +44,6 @@ int main()
 	win.setIcon(32, 32, icon.getPixelsPtr());
 #pragma endregion Set Icon
 
-
 #pragma region BackgroundCreation
 	Background backSheet_1(&TextureHolder::GetTexture(PATH_TO_CONTENT_IMG"RoadTexture.png"), BACKGROUND_SHEET_SIZE, true, Vector2f(0.0f, (WIN_SIZE.y - BACKGROUND_SHEET_SIZE.y)), BACKGROUND_MOVE_SPEED);
 	Background backSheet_2(&TextureHolder::GetTexture(PATH_TO_CONTENT_IMG"RoadTexture.png"), BACKGROUND_SHEET_SIZE, false, Vector2f(0.0f, backSheet_1.getPosition().y - BACKGROUND_SHEET_SIZE.y), BACKGROUND_MOVE_SPEED);
@@ -62,6 +61,15 @@ int main()
 #pragma region BikerCreation
 	Biker biker(PATH_TO_CONTENT_IMG"BikeTexture.png", 1.5f, BACKGROUND_MOVE_SPEED, win);
 #pragma endregion BikerCreation
+
+#pragma region MainManuContentCreation
+	Sprite rectMainMenuBack;
+	rectMainMenuBack.setTexture(TextureHolder::GetTexture(PATH_TO_CONTENT_IMG"MainMenuBackTexture.png"));
+	rectMainMenuBack.setPosition(NULL_POS);
+#pragma endregion MainManuContentCreation
+
+	
+
 
 	Clock clock;
 
@@ -86,7 +94,7 @@ int main()
 
 		if (gameStateNow == MAIN_MENU)
 		{
-			//...
+
 		}
 
 		if (gameStateNow == PLAYING)
@@ -163,7 +171,7 @@ int main()
 		
 		if (gameStateNow == MAIN_MENU)
 		{
-			//win.draw(background for main menu);
+			win.draw(rectMainMenuBack); 
 			//win.draw(text of button play);
 		}
 
