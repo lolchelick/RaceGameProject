@@ -19,6 +19,7 @@ using namespace sf;
 
 void bikerDeath(Biker& b, std::string pathToTexture);
 void bikerReborn(Biker& b, std::string pathToTexture);
+bool coursorIntersects(const Vector2i &mousePos, const Text& t);
 
 bool dead = false;
 bool intersects = false;
@@ -32,6 +33,8 @@ int lives = 5;
 int main()
 {
 	RenderWindow win(VideoMode(WIN_SIZE.x, WIN_SIZE.y), "RaceGame!!!");
+
+	win.setMouseCursorVisible(true);
 	
 	//TextureHolder th;
 
@@ -108,7 +111,15 @@ int main()
 
 		if (gameStateNow == MAIN_MENU)
 		{
-			
+			Vector2i mousePos = Mouse::getPosition();
+			if (coursorIntersects(mousePos, playButton))
+			{
+				playButton.setFillColor(Color::Red);
+			}
+			else
+			{
+				playButton.setFillColor(Color::Black);
+			}
 		}
 
 		if (gameStateNow == PLAYING)
@@ -190,7 +201,7 @@ int main()
 			//win.draw(text of button play);
 		}
 
-		if (gameStateNow == PLAYING)
+		else if (gameStateNow == PLAYING)
 		{
 			win.draw(backSheet_2.getShape());
 			win.draw(backSheet_1.getShape());
@@ -226,3 +237,8 @@ void bikerReborn(Biker &b, std::string pathToTexture)
 	dead = false;
 }
 
+bool coursorIntersects(const Vector2i &mousePos, const Text &t)
+{
+	return (mousePos.x >= t.getPosition().x && mousePos.x <= t.getPosition().x + t.getCharacterSize() * 4 && 
+		mousePos.y >= t.getPosition().y && mousePos.y <= t.getPosition().y + t.getCharacterSize());
+}
