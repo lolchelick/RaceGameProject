@@ -6,6 +6,7 @@
 #include "include/Button.h"
 
 #include <iostream>
+#include <sstream>
 
 #define PATH_TO_CONTENT_IMG "C:/RaceGameProject/cnt/img/"
 #define PATH_TO_CONTENT_AUDIO "C:/RaceGameProject/cnt/audio/"
@@ -35,6 +36,19 @@ int main()
 	RenderWindow win(VideoMode(WIN_SIZE.x, WIN_SIZE.y), "RaceGame!!!");
 
 	win.setMouseCursorVisible(true);
+
+#pragma region Adding Score
+	std::stringstream ss;
+	ss << "SCORE: ";
+	Font scoreFont;
+	scoreFont.loadFromFile(PATH_TO_CONTENT_FONT"game_interface_font.ttf");
+	Text scoreText;
+	scoreText.setFont(scoreFont);
+	scoreText.setCharacterSize(20);
+	scoreText.setString(ss.str());
+	scoreText.setPosition(Vector2f(270.0f, 10.0f));
+	scoreText.setFillColor(Color::Yellow);
+#pragma endregion Adding Score
 
 	Button bPlay(Vector2f(WIN_SIZE.x / 2.0f, WIN_SIZE.y / 4.0f * 3.0f), PATH_TO_CONTENT_IMG"PlayButtonTexture.png");
 	Font fontPlay;
@@ -125,6 +139,7 @@ int main()
 
 		if (gameStateNow == PLAYING)
 		{
+			
 #pragma region Background Swap Logic
 			if (backSheet_1.getPosition().y >= NULL_POS.y && !movedBack_1)
 			{
@@ -170,6 +185,7 @@ int main()
 					std::cout << "Collision Detected in \t X: " << biker.getPosition().x << "  Y: " << biker.getPosition().y << std::endl;
 					bikerDeath(biker, PATH_TO_CONTENT_IMG"BloodTexture.png");
 					intersects = true;
+					score++;
 				}
 				else
 				{
@@ -187,8 +203,10 @@ int main()
 
 #pragma region Setting Live Hearts
 #pragma endregion Setting Live Hearts
-
+			
+			scoreText.setString((ss).str() + std::to_string(score));
 		}
+
 
 
 		win.clear();
@@ -206,6 +224,7 @@ int main()
 			win.draw(backSheet_1.getShape());
 			win.draw(biker.getSprite());
 			win.draw(player.getSprite()); 
+			win.draw(scoreText);
 		}
 
 		win.display();
@@ -235,4 +254,3 @@ void bikerReborn(Biker &b, std::string pathToTexture)
 	b.setSprite(s);
 	dead = false;
 }
-
