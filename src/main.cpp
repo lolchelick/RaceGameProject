@@ -3,6 +3,7 @@
 #include "include/Player.h" 
 #include "include/TextureHolder.h"
 #include "include/Biker.h"
+#include "include/Button.h"
 
 #include <iostream>
 
@@ -34,6 +35,21 @@ int main()
 	RenderWindow win(VideoMode(WIN_SIZE.x, WIN_SIZE.y), "RaceGame!!!");
 
 	win.setMouseCursorVisible(true);
+
+	Button bPlay(Vector2f(WIN_SIZE.x / 2.0f, WIN_SIZE.y / 4.0f * 3.0f), PATH_TO_CONTENT_IMG"PlayButtonTexture.png");
+	Font fontPlay;
+	if (!fontPlay.loadFromFile(PATH_TO_CONTENT_FONT"main_menu_font.ttf"))
+	{
+		std::cout << "Error loading font" << std::endl;
+	}
+	Text textPlay;
+	textPlay.setFont(fontPlay);
+	textPlay.setCharacterSize(40);
+	textPlay.setPosition(Vector2f(70.0f, 50.0f));
+	textPlay.setString("RACE GAME");
+	textPlay.setFillColor(Color::Black);
+
+
 	
 	//TextureHolder th;
 
@@ -91,22 +107,20 @@ int main()
 				win.close();
 				std::cout << "Type : Event::Closed" << std::endl;
 			}
-
-			if (ev.key.code == Keyboard::Escape)
-			{
-				std::cout << "Escape pressed" << std::endl;
-				win.close();
-			}
-
 		}
-		if(Keyboard::isKeyPressed(Keyboard::Escape))
+		if (Keyboard::isKeyPressed(Keyboard::Escape))
+		{
 			win.close();
+		}
 #pragma endregion Polling Event
 
 
 		if (gameStateNow == MAIN_MENU)
 		{
-
+			if (bPlay.update(win))
+			{
+				gameStateNow = PLAYING;
+			}
 		}
 
 		if (gameStateNow == PLAYING)
@@ -140,11 +154,11 @@ int main()
 
 			player.update(deltaTime, win);
 
-#pragma endregion Player Control
+#pragma endregion Player Control Logic
 
 #pragma region Biker Control
 			biker.update(deltaTime);
-#pragma endregion Biker Control
+#pragma endregion Biker Control Logic
 
 #pragma region Collision Detection
 
@@ -182,7 +196,8 @@ int main()
 		if (gameStateNow == MAIN_MENU)
 		{
 			win.draw(rectMainMenuBack); 
-			//win.draw(text of button play);
+			win.draw(bPlay.getShape());
+			win.draw(textPlay);
 		}
 
 		else if (gameStateNow == PLAYING)
