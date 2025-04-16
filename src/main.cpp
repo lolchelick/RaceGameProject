@@ -46,7 +46,7 @@ int main()
 	scoreText.setFont(scoreFont);
 	scoreText.setCharacterSize(20);
 	scoreText.setString(ss.str());
-	scoreText.setPosition(Vector2f(270.0f, 10.0f));
+	scoreText.setPosition(Vector2f(260.0f, 10.0f));
 	scoreText.setFillColor(Color::Yellow);
 #pragma endregion Adding Score
 
