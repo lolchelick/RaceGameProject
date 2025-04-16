@@ -26,6 +26,7 @@ void bikerReborn(Biker& b, std::string pathToTexture);
 
 bool dead = false;
 bool intersects = false;
+bool intersectsTrap = false;
 
 enum gameState { MAIN_MENU, PLAYING, GAME_OVER };
 gameState gameStateNow = MAIN_MENU;
@@ -223,9 +224,21 @@ int main()
 			}
 #pragma endregion Collision Detection
 
+#pragma region Controlling Trap
 			trap.update(deltaTime);
+			if (player.getCollisionRect().intersects(trap.getRect()) && !intersectsTrap)
+			{
+				lives--;
+				intersectsTrap = true;
 
-			
+				std::cout << std::endl << "OHHHH NOOOOO YOU COLLIDED THIS GIRLLL((((" << std::endl << std::endl;
+			}
+			if (trap.getPosition().y < 0 && intersectsTrap)
+			{
+				intersectsTrap = false;
+			}	
+#pragma endregion Controlling Trap
+
 			scoreText.setString((ss).str() + std::to_string(score));
 		}
 

@@ -4,6 +4,7 @@ Player::Player(const Texture &texture, Vector2f pos, float speed)
 {
 	m_Sprite.setTexture(texture);
 	m_SizeX = texture.getSize().x;
+	m_Size = texture.getSize();
 	m_Position = pos;
 	m_Sprite.setPosition(m_Position);
 	m_Sprite.setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
@@ -71,4 +72,10 @@ Vector2f Player::getPosition()
 FloatRect Player::getRect()
 {
 	return m_Sprite.getGlobalBounds();
+}
+
+FloatRect Player::getCollisionRect()
+{
+	m_CollisionRect = FloatRect(m_Position.x + m_Size.x / 4.0f, m_Position.y + m_Size.y / 4.0f, m_Size.x / 4.0f, m_Size.y / 4.0f);
+	return m_CollisionRect;
 }

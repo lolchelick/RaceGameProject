@@ -11,6 +11,7 @@ public:
 	Sprite getSprite();
 	Vector2f getPosition();
 	FloatRect getRect();
+	FloatRect getCollisionRect();
 private:
 	Sprite m_Sprite;
 	Vector2f m_Position;
@@ -20,4 +21,6 @@ private:
 	const int TURN_ROTATION_ANGLE = 17;
 	float m_SizeX;
 	float m_NitroCoeff = 1.0f;
+	FloatRect m_CollisionRect;
+	Vector2u m_Size;
 };

@@ -23,4 +23,5 @@ public:
 	void update(float deltaTime);
 	Sprite getSprite();
 	Vector2f getPosition();
+	FloatRect getRect();
 };
