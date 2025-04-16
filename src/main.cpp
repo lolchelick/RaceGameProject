@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #define PATH_TO_CONTENT_IMG "C:/RaceGameProject/cnt/img/"
 #define PATH_TO_CONTENT_AUDIO "C:/RaceGameProject/cnt/audio/"
@@ -15,7 +16,7 @@
 #define BACKGROUND_MOVE_SPEED 500.0f
 #define WIN_SIZE Vector2f(BACKGROUND_SHEET_SIZE.x, BACKGROUND_SHEET_SIZE.y / 3)
 #define NULL_POS Vector2f(0.0f, 0.0f)
-#define POS_OF_FIRST_HEART Vector2f(10.0f, 10.0f)
+#define POS_OF_FIRST_HEART Vector2f(40.0f, 10.0f)
 
 using namespace sf;
 
@@ -29,7 +30,7 @@ enum gameState { MAIN_MENU, PLAYING, GAME_OVER };
 gameState gameStateNow = MAIN_MENU;
 
 int score = 0;
-int lives = 5;
+int lives = 3;
 
 int main()
 {
@@ -49,6 +50,22 @@ int main()
 	scoreText.setPosition(Vector2f(260.0f, 10.0f));
 	scoreText.setFillColor(Color::Yellow);
 #pragma endregion Adding Score
+
+#pragma region Adding Lives
+	std::vector<Sprite> vectorHearts;
+	for (int i = 0; i < lives; i++)
+	{
+		vectorHearts.push_back(Sprite(TextureHolder::GetTexture(PATH_TO_CONTENT_IMG"LiveHeartTexture.png")));
+	}
+	int i = 1;
+	for (auto it = vectorHearts.begin(); it != vectorHearts.end(); it++)
+	{
+		it->setPosition(Vector2f(POS_OF_FIRST_HEART.x * i, POS_OF_FIRST_HEART.y));
+		i++;
+	}
+#pragma endregion Adding Lives
+
+
 
 	Button bPlay(Vector2f(WIN_SIZE.x / 2.0f, WIN_SIZE.y / 4.0f * 3.0f), PATH_TO_CONTENT_IMG"PlayButtonTexture.png");
 	Font fontPlay;
@@ -201,8 +218,6 @@ int main()
 			}
 #pragma endregion Collision Detection
 
-#pragma region Setting Live Hearts
-#pragma endregion Setting Live Hearts
 			
 			scoreText.setString((ss).str() + std::to_string(score));
 		}
@@ -225,6 +240,10 @@ int main()
 			win.draw(biker.getSprite());
 			win.draw(player.getSprite()); 
 			win.draw(scoreText);
+			for (int i = 0; i < lives; i++)
+			{
+				win.draw(vectorHearts.at(i));
+			}
 		}
 
 		win.display();
