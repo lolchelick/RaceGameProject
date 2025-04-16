@@ -31,8 +31,10 @@ bool intersectsTrap = false;
 enum gameState { MAIN_MENU, PLAYING, GAME_OVER };
 gameState gameStateNow = MAIN_MENU;
 
+const int MAX_LIVES = 3;
+
 int score = 0;
-int lives = 3;
+int lives = MAX_LIVES;
 
 int main()
 {
@@ -68,7 +70,7 @@ int main()
 #pragma endregion Adding Lives
 
 
-
+#pragma region Adding Play Button
 	Button bPlay(Vector2f(WIN_SIZE.x / 2.0f, WIN_SIZE.y / 4.0f * 3.0f), PATH_TO_CONTENT_IMG"PlayButtonTexture.png");
 	Font fontPlay;
 	if (!fontPlay.loadFromFile(PATH_TO_CONTENT_FONT"main_menu_font.ttf"))
@@ -81,10 +83,9 @@ int main()
 	textPlay.setPosition(Vector2f(70.0f, 50.0f));
 	textPlay.setString("RACE GAME");
 	textPlay.setFillColor(Color::Black);
-
+#pragma endregion Adding Play Button
 
 	
-	//TextureHolder th;
 
 #pragma region Set Icon
 	Image icon;
@@ -124,7 +125,14 @@ int main()
 	Trap trap(BACKGROUND_MOVE_SPEED, PATH_TO_CONTENT_IMG"TrapTexture.png", win);
 
 #pragma endregion Trap Creation
+	
+#pragma region Game Over Screen Creation
+	Texture &t = TextureHolder::GetTexture(PATH_TO_CONTENT_IMG"GameOverScreenTexture.png");
+	Sprite rectGameOver;
 
+	rectGameOver.setTexture(t);
+	rectGameOver.setPosition(Vector2f(0.0f, 0.0f));
+#pragma endregion Game Over Screen Creation
 
 
 	Clock clock;
@@ -160,7 +168,7 @@ int main()
 			}
 		}
 
-		if (gameStateNow == PLAYING)
+		else if (gameStateNow == PLAYING)
 		{
 			
 #pragma region Background Swap Logic
@@ -240,9 +248,22 @@ int main()
 #pragma endregion Controlling Trap
 
 			scoreText.setString((ss).str() + std::to_string(score));
+
+			if (lives < 1)
+			{
+				gameStateNow = GAME_OVER;
+			}
 		}
 
-
+		else if (gameStateNow == GAME_OVER)
+		{
+			if (Keyboard::isKeyPressed(Keyboard::Space))
+			{
+				gameStateNow = PLAYING;
+				lives = MAX_LIVES;
+				score = 0;
+			}
+		}
 
 		win.clear();
 		
@@ -265,6 +286,10 @@ int main()
 			{
 				win.draw(vectorHearts.at(i));
 			}
+		}
+		else if (gameStateNow == GAME_OVER)
+		{
+			win.draw(rectGameOver);
 		}
 
 		win.display();
