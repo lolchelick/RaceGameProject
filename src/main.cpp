@@ -4,6 +4,7 @@
 #include "include/TextureHolder.h"
 #include "include/Biker.h"
 #include "include/Button.h"
+#include "include/Trap.h"
 
 #include <iostream>
 #include <sstream>
@@ -118,6 +119,10 @@ int main()
 	rectMainMenuBack.setPosition(NULL_POS);
 #pragma endregion MainManuContentCreation
 	
+#pragma region Trap Creation
+	Trap trap(BACKGROUND_MOVE_SPEED, PATH_TO_CONTENT_IMG"TrapTexture.png", win);
+
+#pragma endregion Trap Creation
 
 
 
@@ -218,6 +223,8 @@ int main()
 			}
 #pragma endregion Collision Detection
 
+			trap.update(deltaTime);
+
 			
 			scoreText.setString((ss).str() + std::to_string(score));
 		}
@@ -237,6 +244,7 @@ int main()
 		{
 			win.draw(backSheet_2.getShape());
 			win.draw(backSheet_1.getShape());
+			win.draw(trap.getSprite());
 			win.draw(biker.getSprite());
 			win.draw(player.getSprite()); 
 			win.draw(scoreText);
