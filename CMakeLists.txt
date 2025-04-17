@@ -4,7 +4,7 @@ project(RaceGameProject)
 set(CMAKE_CXX_STANDARD 17)
 
 
-find_package(SFML 2.6.2 COMPONENTS window system graphics REQUIRED)
+find_package(SFML 2.6.2 COMPONENTS window system graphics audio REQUIRED)
 
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -39,4 +39,5 @@ target_link_libraries(${PROJECT_NAME}
     sfml-window 
     sfml-system 
     sfml-graphics
+    sfml-audio
 )

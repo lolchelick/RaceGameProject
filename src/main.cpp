@@ -1,4 +1,6 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
 #include "include/Background.h"
 #include "include/Player.h" 
 #include "include/TextureHolder.h"
@@ -68,6 +70,42 @@ int main()
 		i++;
 	}
 #pragma endregion Adding Lives
+
+#pragma region Adding Sounds
+	SoundBuffer bufferCarCrash;
+	SoundBuffer bufferTrap;
+	SoundBuffer bufferGameOver;
+	
+
+	if (!bufferCarCrash.loadFromFile(PATH_TO_CONTENT_AUDIO"CarCrashSound.wav"))
+	{
+		std::cout << "Error loading sound CarCrashSound.wav" << std::endl;
+		return -1;
+	}
+	if (!bufferTrap.loadFromFile(PATH_TO_CONTENT_AUDIO"TrapSound.wav"))
+	{
+		std::cout << "Error loading sound TrapSound.wav" << std::endl;
+		return -1;
+	}
+	if (!bufferGameOver.loadFromFile(PATH_TO_CONTENT_AUDIO"GameOverSound.wav"))
+	{
+		std::cout << "Error loading sound GameOverSound.wav" << std::endl;
+		return -1;
+	}
+
+	Music BackMusic;
+	if (!BackMusic.openFromFile(PATH_TO_CONTENT_AUDIO"Kishlachok.mp3"))
+	{
+		std::cout << "Error loading background music" << std::endl;
+		return -1;
+	}
+
+	Sound soundCarCrash(bufferCarCrash);
+	Sound soundTrap(bufferTrap);
+	Sound soundGameOver(bufferGameOver);
+
+
+#pragma endregion AddingSounds
 
 
 #pragma region Adding Play Button
@@ -170,7 +208,11 @@ int main()
 
 		else if (gameStateNow == PLAYING)
 		{
-			
+			if (BackMusic.getStatus() == Music::Stopped)
+			{
+				BackMusic.play();
+				BackMusic.setPlayingOffset(seconds(8.0f));
+			}
 #pragma region Background Swap Logic
 			if (backSheet_1.getPosition().y >= NULL_POS.y && !movedBack_1)
 			{
@@ -217,6 +259,7 @@ int main()
 					bikerDeath(biker, PATH_TO_CONTENT_IMG"BloodTexture.png");
 					intersects = true;
 					score++;
+					soundCarCrash.play();
 				}
 				else
 				{
@@ -240,6 +283,7 @@ int main()
 				intersectsTrap = true;
 
 				std::cout << std::endl << "OHHHH NOOOOO YOU COLLIDED THIS GIRLLL((((" << std::endl << std::endl;
+				soundTrap.play();
 			}
 			if (trap.getPosition().y < 0 && intersectsTrap)
 			{
@@ -252,6 +296,8 @@ int main()
 			if (lives < 1)
 			{
 				gameStateNow = GAME_OVER;
+				BackMusic.stop();
+				soundGameOver.play();
 			}
 		}
 
