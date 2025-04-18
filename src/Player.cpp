@@ -76,6 +76,6 @@ FloatRect Player::getRect()
 
 FloatRect Player::getCollisionRect()
 {
-	m_CollisionRect = FloatRect(m_Position.x + m_Size.x / 6.0f, m_Position.y + m_Size.y / 6.0f, m_Size.x - m_Size.x / 6.0f , m_Size.y - m_Size.y / 6.0f);
+	m_CollisionRect = FloatRect(m_Position.x + m_Size.x / 10.0f, m_Position.y + m_Size.y / 10.0f, m_Size.x - m_Size.x / 10.0f , m_Size.y - m_Size.y / 10.0f);
 	return m_CollisionRect;
 }
