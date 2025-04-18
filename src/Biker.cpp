@@ -12,10 +12,12 @@ Biker::Biker(std::string TexturePath, float speedCoeff, float BackSpeed, const R
 	WinSize = win.getSize();
 
 	m_SpawnedUpward = true;
+	goingRight = true;
 
 	srand(time(nullptr));
 
 	setRandomPosition(rand() % 4 + 1);
+	setRandomTypeOfMovement();
 }
 
 void Biker::setRandomPosition(int seed)
@@ -52,8 +54,27 @@ FloatRect Biker::getRect()
 
 void Biker::update(float deltaTime)
 {
+
+	if(goingRight && m_Position.x >= WinSize.x - 2 * m_Size.x)
+		goingRight = false;
+	else if(!goingRight && m_Position.x <= 2 * m_Size.x)
+		goingRight = true;
+
 	m_Position.y += deltaTime * M_BackSpeed * m_SpeedCoeff;
-	m_Position.x += m_MovementTypeX * M_BackSpeed * deltaTime;
+	
+	if(dead)
+		mc = 0;
+	else 
+		mc = 1;
+
+	if(goingRight)
+		m_Position.x += deltaTime * M_BackSpeed * m_SpeedCoeff * m_MovementTypeX * mc;
+	else
+		m_Position.x -= deltaTime * M_BackSpeed * m_SpeedCoeff * m_MovementTypeX * mc;
+
+
+	
+
 	
 	m_SpawnedUpward = false;
 
@@ -63,9 +84,11 @@ void Biker::update(float deltaTime)
 		setRandomPosition(seed);
 		setRandomSpeedCoeff(seed);
 		this->m_SpawnedUpward = true;
+		setRandomTypeOfMovement();
+		dead = false;
 	}
 
-	if (m_Position.x <= 0.0f)
+	if (m_Position.x <= 0.0f + m_Size.x / 2.0f)
 	{
 		m_Position.x = m_Size.x;
 	}
@@ -73,6 +96,7 @@ void Biker::update(float deltaTime)
 	{
 		m_Position.x = WinSize.x - m_Size.x;
 	}
+
 
 	m_Sprite.setPosition(m_Position);
 }
@@ -90,4 +114,31 @@ void Biker::setSprite(const Sprite &s)
 void Biker::setUnoSpeedCoeff()
 {
 	this->m_SpeedCoeff = 1.0f;
+}
+
+void Biker::setRandomTypeOfMovement()
+{
+	srand(time(nullptr));
+	int randN = rand() % 3;
+
+	switch (randN)
+	{
+	case 0:
+		m_MovementTypeX = TypeOfMovement::STRAIGHT;
+		break;
+	case 1:
+		m_MovementTypeX = TypeOfMovement::SLOW_SNAKE;
+		break;
+	case 2:
+		m_MovementTypeX = TypeOfMovement::FAST_SNAKE;
+		break;
+	default:
+		break;
+	}
+}
+
+
+void Biker::setDead()
+{
+	dead = true;
 }
