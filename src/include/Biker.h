@@ -17,6 +17,7 @@ public:
 	bool isSpawnedUpward();
 	void setSprite(const Sprite &s);
 	void setUnoSpeedCoeff();
+	void setDead();
 private:
 	float m_SpeedCoeff; // The effect of movement in the game is organised by moving of the background
 	Sprite m_Sprite;
@@ -29,4 +30,8 @@ private:
 	void setRandomPosition(int seed);
 	void setRandomSpeedCoeff(int seed);
 	bool m_SpawnedUpward;
+	void setRandomTypeOfMovement();
+	bool goingRight;
+	bool mc;
+	bool dead = false;
 };

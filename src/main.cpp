@@ -260,6 +260,7 @@ int main()
 					intersects = true;
 					score++;
 					soundCarCrash.play();
+					biker.setDead();
 				}
 				else
 				{
