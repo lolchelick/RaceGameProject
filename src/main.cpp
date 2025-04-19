@@ -26,6 +26,8 @@ using namespace sf;
 void bikerDeath(Biker& b, std::string pathToTexture);
 void bikerReborn(Biker& b, std::string pathToTexture);
 
+std::string setRandomMusic();
+
 bool dead = false;
 bool intersects = false;
 bool intersectsTrap = false;
@@ -93,19 +95,22 @@ int main()
 		return -1;
 	}
 
-	Music BackMusic;
-	if (!BackMusic.openFromFile(PATH_TO_CONTENT_AUDIO"Kishlachok.mp3"))
-	{
-		std::cout << "Error loading background music" << std::endl;
-		return -1;
-	}
-
 	Sound soundCarCrash(bufferCarCrash);
 	Sound soundTrap(bufferTrap);
 	Sound soundGameOver(bufferGameOver);
 
 
 #pragma endregion AddingSounds
+
+#pragma region Back Music
+	Music BackMusic;
+	std::string musicFile = setRandomMusic();
+	if (!BackMusic.openFromFile(PATH_TO_CONTENT_AUDIO + musicFile))
+	{
+		std::cout << "Error loading background music" << std::endl;
+		return -1;
+	}
+#pragma endregion Back Music
 
 
 #pragma region Adding Play Button
@@ -211,7 +216,7 @@ int main()
 			if (BackMusic.getStatus() == Music::Stopped)
 			{
 				BackMusic.play();
-				BackMusic.setPlayingOffset(seconds(8.0f));
+				//BackMusic.setPlayingOffset(seconds(8.0f));
 			}
 #pragma region Background Swap Logic
 			if (backSheet_1.getPosition().y >= NULL_POS.y && !movedBack_1)
@@ -365,4 +370,31 @@ void bikerReborn(Biker &b, std::string pathToTexture)
 	s.setPosition(- 15, -15);
 	b.setSprite(s);
 	dead = false;
+}
+
+std::string setRandomMusic()
+{
+	srand(time(nullptr));
+	int randN = rand() % 5;
+	
+	switch (randN)
+	{
+	case 0:
+		return "Kishlachok_Dvinulsya.mp3";
+		break;
+	case 1:
+		return "Kishlachok_Muzika.mp3";
+		break;
+	case 2:
+		return "Kishlachok_PacanskiyEmoRap.mp3";
+		break;
+	case 3:
+		return "Kishlachok_Rostov.mp3";
+		break;
+	case 4:
+		return "Kishlachok_VseOChemMechtal.mp3";
+		break;
+	default:
+		break;
+	}
 }
